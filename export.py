@@ -67,20 +67,26 @@ def run_config(args, config, checkpoint):
 
     print('len(sequences)', len(sequences))
 
+    skipped = 0
     for si, sequence in enumerate(sequences):
-        print(sequence.metadata['audio_filename'])
-        predictions = predict_one_sequence(args, config, run, sequence)
-        activations = np.stack([
-            predictions['y_frames'],
-            predictions['y_onsets'],
-            predictions['y_offsets']
-        ], axis=-1)
+        try:
+            predictions = predict_one_sequence(args, config, run, sequence)
 
-        predicted = dict(
-            metadata=sequence.metadata,
-            activations=activations
-        )
-        torch.save(predicted, os.path.join(args.outdir, 'predictions_{}.pkl'.format(si)))
+            activations = np.stack([
+                predictions['y_frames'],
+                predictions['y_onsets'],
+                predictions['y_offsets']
+            ], axis=-1)
+
+            predicted = dict(
+                metadata=sequence.metadata,
+                activations=activations
+            )
+            torch.save(predicted, os.path.join(args.outdir, 'predictions_{}.pkl'.format(si)))
+        except:
+            print("Skipping", sequence.metadata['audio_filename'])
+            skipped += 1
+    print(f"In total, skipped {skipped} files")
 
 
 def main():
