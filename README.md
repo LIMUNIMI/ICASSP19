@@ -2,6 +2,11 @@
 
 This is code to reproduce the results in [this paper](https://ieeexplore.ieee.org/document/8683582).
 
+## This fork is a modified version to train the model on the Maestro dataset.
+
+Just do anything as described in the following original README, but instead of
+MAPS download Maestro and don't run the script to create the metadata of songs.
+
 ## Installation
 
 - it is recommended you first create a python 3 virtual environment

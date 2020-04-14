@@ -16,7 +16,11 @@ def get_onsets_and_pitch_labels(midifile):
         pattern = midi.MIDIFile(midifile)
         intervals = []
         labels = []
-        for onset, _pitch, duration, velocity, _channel in pattern.sustained_notes:
+        if hasattr(pattern, 'sustained_notes'):
+            l = pattern.sustained_notes
+        else:
+            l = pattern.notes
+        for onset, _pitch, duration, velocity, _channel in l:
             label = int(_pitch)  # do not subtract 21; mir_eval needs pitches strictly >= 0 anyways
             intervals.append([onset, onset + duration])
             labels.append(label)
