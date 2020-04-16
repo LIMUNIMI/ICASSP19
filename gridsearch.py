@@ -91,7 +91,7 @@ def run_trial(prediction_filenames, onset_note_prob, offset_prob, threshold):
 
     ###########################################################
     if len(prfo_notes) > 0:
-            result = np.mean(prfo_notes, axis=0)
+        result = np.mean(prfo_notes, axis=0)
     else:
         result = [0., 0., 0., 0.]
     return result
@@ -110,11 +110,11 @@ def run_config(args, activations_directory):
         prediction_filenames = np.random.choice(prediction_filenames, args.sample_size)
 
     results = dict()
-    # for onset_note_prob in [0.1, 0.3, 0.5, 0.7, 0.9]:
-    #     for offset_prob in [0.1, 0.3, 0.5, 0.7, 0.9]:
-    #         for threshold in [0.1, 0.3, 0.5, 0.7, 0.9]:
+    # for onset_note_prob in [0.5, 0.7, 0.9]:
+    #     for offset_prob in [0.1, 0.3, 0.5]:
+    #         for threshold in [0.3, 0.5, 0.7]:
     for onset_note_prob in [0.9]:
-        for offset_prob in [0.1]:
+        for offset_prob in [0.5]:
             for threshold in [0.5]:
                 t_start = time.time()
                 trial = 'onnp_{}_offp_{}_thrs_{}'.format(onset_note_prob, offset_prob, threshold)
