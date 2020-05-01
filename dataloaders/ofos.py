@@ -29,7 +29,11 @@ def get_y_from_file(midifile, n_frames, audio_options):
         y_frames = np.zeros((n_frames, 88), dtype=np.uint8)
         y_offsets = np.zeros((n_frames, 88), dtype=np.uint8)
 
-        for onset, _pitch, duration, velocity, _channel in pattern.sustained_notes:
+        if hasattr(pattern, 'sustained_notes'):
+            notes = pattern.sustained_notes
+        else:
+            notes = pattern.notes
+        for onset, _pitch, duration, velocity, _channel in notes:
             pitch = int(_pitch)
             label = pitch - 21
 

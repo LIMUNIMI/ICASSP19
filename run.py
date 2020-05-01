@@ -14,15 +14,18 @@ def run_config(args, config):
 
     # fail early, if we should train, and dir exists #######################################
     if args.train:
-        if args.force:
-            if os.path.exists(run_path):
-                shutil.rmtree(run_path)
-        try:
-            directory = 'runs/{}'.format(config['run_id'])
-            os.makedirs(directory)
-        except Exception as e:
-            print('run directory "{}" already exists'.format(directory))
-            return
+        if  args.checkpoint is not None:
+            run.load(args.checkpoint)
+        else:
+            if args.force:
+                if os.path.exists(run_path):
+                    shutil.rmtree(run_path)
+            try:
+                directory = 'runs/{}'.format(config['run_id'])
+                os.makedirs(directory)
+            except Exception as e:
+                print('run directory "{}" already exists'.format(directory))
+                return
         torch.save(config, 'runs/{}/config.pkl'.format(config['run_id']))
 
     run_module = importlib.import_module(config['modules']['run']['name'])
@@ -38,7 +41,8 @@ def run_config(args, config):
     if args.find_learnrate:
         run.find_learnrate(args.min_lr, args.max_lr)
     elif args.train:
-        run.save('runs/{}/initial.pkl'.format(config['run_id']))
+        if args.checkpoint is None:
+            run.save('runs/{}/initial.pkl'.format(config['run_id']))
         for i_epoch in range(config['n_epochs']):
             abort = run.advance()
             if abort:
