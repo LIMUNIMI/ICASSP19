@@ -12,6 +12,11 @@ import numpy as np
 def run_config(args, config):
     run_path = 'runs/{}'.format(config['run_id'])
 
+    run_module = importlib.import_module(config['modules']['run']['name'])
+    run = run_module.Run(config, args.cuda)
+
+    dataloader_module = importlib.import_module(config['modules']['dataloader']['name'])
+
     # fail early, if we should train, and dir exists #######################################
     if args.train:
         if  args.checkpoint is not None:
@@ -27,11 +32,6 @@ def run_config(args, config):
                 print('run directory "{}" already exists'.format(directory))
                 return
         torch.save(config, 'runs/{}/config.pkl'.format(config['run_id']))
-
-    run_module = importlib.import_module(config['modules']['run']['name'])
-    run = run_module.Run(config, args.cuda)
-
-    dataloader_module = importlib.import_module(config['modules']['dataloader']['name'])
 
     # only load config-specified data if necessary
     if args.train or args.test or args.find_learnrate:
