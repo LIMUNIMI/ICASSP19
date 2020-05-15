@@ -209,6 +209,7 @@ class Run(object):
                 batches_per_second = count / t_elapsed
                 t_rest = ((n_batches - total_count) / batches_per_second) / 3600.
                 print('bps {:4.2f} eta {:4.2f} [h]'.format(batches_per_second, t_rest))
+                print(f'smoothed loss: {smoothed_loss:4.2f}')
                 t_elapsed = 0
                 count = 0
             debug_gradients(self.config, total_count, self.net)
