@@ -43,7 +43,7 @@ def run_config(args, config):
     elif args.train:
         if args.checkpoint is None:
             run.save('runs/{}/initial.pkl'.format(config['run_id']))
-        for i_epoch in range(config['n_epochs'] - run.epochs + 1):
+        for i_epoch in range(config['n_epochs'] - run.epoch + 1):
             abort = run.advance()
             if abort:
                 run.save('runs/{}/aborted.pkl'.format(config['run_id']))

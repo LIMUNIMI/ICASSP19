@@ -2,7 +2,7 @@ def get_config():
     base_directory = '/datasets/AudioScoreDatasets/Maestro/maestro-v2.0.0/'
     metadata_filename = './maestro-v2.0.0.csv'
     for batchsize in [256]:
-        for lr in [0.01]:
+        for lr in [0.08]:
             config = dict(
                 run_id='ofos/lr_{}_bs_{}'.format(lr, batchsize),
                 modules=dict(
